@@ -1,0 +1,32 @@
+aid: administrative-conference-of-the-united-states
+name: Administrative Conference of the United States
+description: >-
+  ACUS is an independent federal agency within the executive branch whose
+  statutory mission is to identify ways to improve the procedures.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API
+created: '2024-11-20'
+modified: '2024-11-20'
+url: >-
+  https://raw.githubusercontent.com/api-search/administrative-conference-of-the-united-states/refs/heads/main/apis.yml
+specificationVersion: '0.19'
+apis:
+  - aid: >-
+      administrative-conference-of-the-united-states:administrative-conference-of-the-united-states
+    name: Administrative Conference of the United States
+    description: >-
+      ACUS is an independent federal agency within the executive branch whose
+      statutory mission is to identify ways to improve the procedures.
+    humanURL: https://www.acus.gov/page/home
+    tags:
+      - API
+    properties:
+      - type: Documentation
+        url: https://www.acus.gov/page/home
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
