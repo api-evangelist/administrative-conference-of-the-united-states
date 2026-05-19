@@ -65,6 +65,8 @@ apis:
       - type: DataAPI
         url: https://acus.gov/recommendations
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/administrative-conference-of-the-united-states
   - type: Website
     url: https://www.acus.gov/
   - type: Portal
