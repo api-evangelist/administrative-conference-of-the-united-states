@@ -65,6 +65,8 @@ apis:
       - type: DataAPI
         url: https://acus.gov/recommendations
 common:
+  - type: DomainSecurity
+    url: security/administrative-conference-of-the-united-states-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/administrative-conference-of-the-united-states
   - type: Website
