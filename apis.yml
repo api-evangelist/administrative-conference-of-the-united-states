@@ -1,4 +1,17 @@
 aid: administrative-conference-of-the-united-states
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/administrative-conference-of-the-united-states.png
 url: >-
   https://raw.githubusercontent.com/api-evangelist/administrative-conference-of-the-united-states/refs/heads/main/apis.yml
 name: Administrative Conference of the United States
