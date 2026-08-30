@@ -1,0 +1,96 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  https://www.acus.gov/ (footer + policy pages), https://www.acus.gov/rss.xml,
+  https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo, and response-header
+  inspection on sourcebook.acus.gov, all 2026-08-30
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  Lifecycle posture for the Administrative Conference of the United States. ACUS runs no
+  developer program, so there is no API versioning policy, no deprecation policy, no SLA
+  and no status page. What lifecycle signal exists is editorial rather than technical:
+  the agency publishes dated recommendations, reports, news releases and a monthly
+  Updates in Federal Agency Adjudication, and it exposes a site-wide RSS feed.
+versioning:
+  policy_published: false
+  scheme: >-
+    Inherited from MediaWiki. The REST surface is path-versioned at /rest.php/v1/; the
+    Action API is unversioned and evolves with the MediaWiki release the wiki runs.
+  current_platform_version: MediaWiki 1.43.0
+  evidence: >-
+    https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo&format=json returns
+    generator "MediaWiki 1.43.0", phpversion 8.3.30, git-branch master.
+  note: >-
+    MediaWiki 1.43 is an LTS release. ACUS makes no commitment of its own about when it
+    will move off it, and there is no announcement channel for the wiki.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  evidence: >-
+    No Deprecation or Sunset (RFC 8594) headers observed on any probed response from
+    sourcebook.acus.gov. No deprecation page exists on www.acus.gov.
+  note: >-
+    NO Deprecation pointer is emitted in apis.yml — the policy does not exist. Upstream
+    MediaWiki emits deprecation notices in the Action API `warnings` envelope, but that
+    is MediaWiki's lifecycle, not ACUS's.
+status_page:
+  published: false
+  probes:
+    - url: https://status.acus.gov/
+      status: '<no response>'
+      note: DNS/connection failure — host does not resolve to a reachable service.
+    - url: https://www.acus.gov/status
+      status: 404
+  note: >-
+    NO StatusPage pointer is emitted — there is nothing to point at. Federal agency
+    sites of this size commonly have none.
+sla:
+  published: false
+  note: No service level agreement, uptime target or support commitment is published.
+support:
+  published: true
+  channel: email
+  url: https://www.acus.gov/about-acus
+  email: info@acus.gov
+  security_email: security@acus.gov
+  note: >-
+    General agency contact only. There is no developer support channel, no forum, no
+    issue tracker and no GitHub organization (api.github.com/orgs/acus-gov 404).
+change_communication:
+  - name: News Releases
+    url: https://www.acus.gov/news-releases
+    status: 200
+    cadence: irregular
+  - name: Blog
+    url: https://www.acus.gov/blog
+    status: 200
+    cadence: irregular
+  - name: Site-wide RSS feed
+    url: https://www.acus.gov/rss.xml
+    status: 200
+    format: RSS 2.0 with Dublin Core
+    note: >-
+      The only machine-readable change feed ACUS publishes. Covers site content — new
+      articles, recommendations and announcements — not API changes.
+  - name: Updates in Federal Agency Adjudication
+    url: https://www.acus.gov/updates-federal-agency-adjudication
+    status: 200
+    cadence: monthly
+  - name: Legislative Updates
+    url: https://www.acus.gov/legislative-updates
+    status: not-probed
+changelog:
+  developer_changelog: false
+  note: >-
+    No dated developer or API changelog exists, so no changelog/ artifact and no
+    ChangeLog pointer are written. The MediaWiki content itself is fully versioned —
+    every Sourcebook page carries a revision history reachable through
+    /rest.php/v1/revision/{id} and action=query&prop=revisions — which is a per-document
+    change record rather than a product changelog.
+deprecated_operations: []
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

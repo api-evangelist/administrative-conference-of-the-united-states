@@ -1,0 +1,90 @@
+generated: '2026-08-30'
+method: probed
+source: live GET probes of /.well-known/* on every acus.gov host named in apis.yml
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  Probe record of RFC 8615 well-known document discovery across every host the
+  Administrative Conference of the United States (ACUS) controls. Every path
+  returned 404 or an HTML error/CMS shell. No well-known document is served, so
+  NO WellKnown / SecurityTxt / APICatalog pointer is emitted in apis.yml — this
+  file records a verified absence, not a presence.
+note: >-
+  All acus.gov hosts return HTTP 403 to non-browser user agents (curl, python-requests,
+  GPTBot all 403 on 2026-08-30). Every probe below was therefore issued with a desktop
+  Chrome User-Agent so the 404s are genuine "not served" results and not edge refusals.
+  Where a 404 body is the Drupal / MediaWiki / Symfony error page it is recorded as an
+  HTML shell, which is a miss under the pipeline rules.
+hosts:
+  - host: www.acus.gov
+    platform: Drupal 10 (core/CHANGELOG.txt served, HTTP 200)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+        note: Apache 404, not a Drupal page — path is unrouted.
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+        note: Drupal HTML 404 page.
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+        note: Drupal HTML 404 page.
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+        note: Drupal HTML 404 page. ACUS publishes no OMB M-24-xx style API catalog.
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: eaja.acus.gov
+    platform: Symfony / EasyAdmin (EAJA Awards Database UI)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: sourcebook.acus.gov
+    platform: MediaWiki 1.43.0 on Apache/2.4.62 (Amazon Linux)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+        note: Apache 404. Note the agency DOES publish a Vulnerability Disclosure Policy as an
+          HTML page at https://www.acus.gov/vulnerability-disclosure-policy — it is simply not
+          mirrored as an RFC 9116 security.txt.
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+robots:
+  - host: www.acus.gov
+    url: https://www.acus.gov/robots.txt
+    status: 200
+    note: Standard Drupal robots.txt; MJ12bot disallowed, SeekportBot crawl-delay 2, no AI-crawler directives.
+  - host: eaja.acus.gov
+    url: https://eaja.acus.gov/robots.txt
+    status: 200
+    note: 'User-agent: * Crawl-delay: 2; MJ12bot disallowed.'
+  - host: sourcebook.acus.gov
+    url: https://sourcebook.acus.gov/robots.txt
+    status: 200
+    note: 'User-agent: * Crawl-delay: 2; MJ12bot disallowed.'
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

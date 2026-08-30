@@ -1,0 +1,77 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  live anonymous requests to https://sourcebook.acus.gov/api.php and
+  https://sourcebook.acus.gov/rest.php/v1/* on 2026-08-30, plus
+  https://sourcebook.acus.gov/api.php?action=rsd
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  ACUS runs one publicly callable API surface: the MediaWiki Action API and MediaWiki
+  REST API v1 behind the Federal Administrative Procedure Sourcebook wiki at
+  sourcebook.acus.gov. All read operations are ANONYMOUS — no API key, no token, no
+  account. There are no OAuth flows: the wiki's own RSD document reports
+  OAuth=false. Write actions exist in the module list but require a wiki account and a
+  CSRF token, and account creation is not open to the public. The other two ACUS data
+  properties (the EAJA Awards Database and the Federal Administrative Adjudication
+  Database) expose no programmatic interface at all, so they have no auth model.
+apis:
+  - name: Federal Administrative Procedure Sourcebook API
+    baseURL: https://sourcebook.acus.gov/api.php
+    rest_baseURL: https://sourcebook.acus.gov/rest.php/v1
+    schemes:
+      - id: anonymous
+        type: none
+        applies_to: all read operations (action=query, action=parse, action=opensearch, REST GET)
+        in: n/a
+        evidence: >-
+          GET https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo&format=json -> 200
+          with no credentials; GET https://sourcebook.acus.gov/rest.php/v1/page/Main_Page -> 200
+          with no credentials.
+      - id: mediawiki-session-csrf
+        type: cookie+csrf-token
+        applies_to: >-
+          write modules (edit, upload, move, delete, protect, patrol, watch, options,
+          visualeditoredit and the rest of the 54-action surface)
+        in: cookie
+        token_endpoint: https://sourcebook.acus.gov/api.php?action=query&meta=tokens
+        evidence: >-
+          MediaWiki 1.43.0 standard model, reported by action=paraminfo&modules=main. Not
+          exercised — this repo issues read-only probes only.
+        note: >-
+          Not an agent-usable auth model. There is no self-service registration for the
+          Sourcebook wiki, and action=rsd reports OAuth false, so no OAuth/OAuth2
+          consumer flow is available.
+      - id: oauth
+        type: oauth2
+        available: false
+        evidence: >-
+          GET https://sourcebook.acus.gov/api.php?action=rsd -> 200,
+          <setting name="OAuth">false</setting>. No OAuth extension is installed
+          (siprop=extensions returns only skins plus VisualEditor, WikiEditor, Cite).
+access_control_findings:
+  - finding: user-agent-gated
+    severity: high-for-agents
+    detail: >-
+      Every acus.gov host returns HTTP 403 to non-browser user agents. Measured 2026-08-30
+      against https://sourcebook.acus.gov/rest.php/v1/page/Main_Page: curl/8.7.1 -> 403,
+      python-requests/2.31.0 -> 403, GPTBot/1.0 -> 403, desktop Chrome UA -> 200. The
+      identical pattern holds for www.acus.gov and for the Action API. The API is public
+      and unauthenticated, but a default-configured HTTP client or crawler cannot reach it
+      without spoofing a browser User-Agent. This is an edge policy, not an auth
+      requirement, and it is the single biggest barrier to agent consumption of ACUS data.
+    evidence:
+      - request: 'GET https://sourcebook.acus.gov/rest.php/v1/page/Main_Page (UA: curl/8.7.1)'
+        status: 403
+      - request: 'GET https://sourcebook.acus.gov/rest.php/v1/page/Main_Page (UA: GPTBot/1.0)'
+        status: 403
+      - request: 'GET https://sourcebook.acus.gov/rest.php/v1/page/Main_Page (UA: Chrome 126 desktop)'
+        status: 200
+well_known:
+  openid_configuration: null
+  oauth_authorization_server: null
+  note: Both probed on www.acus.gov and returned 404 — see well-known/ artifact.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

@@ -1,0 +1,97 @@
+generated: '2026-08-30'
+method: derived
+source: >-
+  derived from live-probed operations on https://sourcebook.acus.gov/api.php and
+  https://sourcebook.acus.gov/rest.php/v1/* (2026-08-30). NOT a published ACUS server.
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+status: candidate
+description: >-
+  ACUS publishes no MCP server, hosted or local. This file records that absence and
+  sketches the tool surface an MCP server over the Federal Administrative Procedure
+  Sourcebook API would expose, derived strictly from operations verified live. NO
+  MCPServer pointer is emitted in apis.yml, because emitting one would assert an agent
+  surface the agency does not ship.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    Searched for a hosted or packaged ACUS MCP server: no llms.txt on any acus.gov host
+    (404), no /mcp or /sse endpoint advertised anywhere, no npm or PyPI package
+    (registry search returned 0 results), no ACUS GitHub organization
+    (api.github.com/orgs/acus-gov 404, api.github.com/orgs/acusgov 404). Nothing to
+    probe, so nothing is claimed.
+search_evidence:
+  - url: https://www.acus.gov/llms.txt
+    status: 404
+  - url: https://eaja.acus.gov/llms.txt
+    status: 404
+  - url: https://sourcebook.acus.gov/llms.txt
+    status: 404
+  - url: https://www.acus.gov/mcp
+    status: 404
+  - url: https://sourcebook.acus.gov/mcp
+    status: 404
+  - url: https://registry.npmjs.org/-/v1/search?text=acus.gov
+    status: 200
+    result: 0 packages
+  - url: https://api.github.com/orgs/acus-gov
+    status: 404
+candidate_tools:
+  - name: search_sourcebook
+    description: Full-text search the Federal Administrative Procedure Sourcebook.
+    backing_operation: GET /rest.php/v1/search/page?q={q}&limit={limit}
+    verified: true
+    confidence: high
+  - name: find_sourcebook_entry
+    description: Find a Sourcebook entry by title prefix.
+    backing_operation: GET /rest.php/v1/search/title?q={q}&limit={limit}
+    verified: true
+    confidence: high
+  - name: get_sourcebook_entry
+    description: >-
+      Retrieve one Sourcebook entry — a federal administrative-procedure statute or
+      doctrine page — with its wikitext source and latest revision pointer.
+    backing_operation: GET /rest.php/v1/page/{title}
+    verified: true
+    confidence: high
+  - name: get_sourcebook_entry_html
+    description: Retrieve the rendered HTML of a Sourcebook entry.
+    backing_operation: GET /rest.php/v1/page/{title}/html
+    verified: true
+    confidence: high
+  - name: list_sourcebook_entries
+    description: Enumerate every entry in the Sourcebook, with continuation.
+    backing_operation: GET /api.php?action=query&list=allpages&aplimit={limit}
+    verified: true
+    confidence: high
+  - name: get_sourcebook_revision
+    description: Retrieve a specific revision of a Sourcebook entry.
+    backing_operation: GET /rest.php/v1/revision/{id}/bare
+    verified: true
+    confidence: high
+agent_blockers:
+  - >-
+    Any such server would have to send a browser User-Agent. Every acus.gov host returns
+    HTTP 403 to curl, python-requests and GPTBot; only a desktop browser UA gets 200
+    (measured 2026-08-30).
+  - >-
+    The corpus is 21 content articles. It is small enough that a full local copy is more
+    practical than a live tool surface, and it changes rarely.
+corpus_note: >-
+  Verified entries as of 2026-08-30 include the Administrative Procedure Act, Freedom of
+  Information Act, Privacy Act, Government in the Sunshine Act, Federal Advisory Committee
+  Act, Negotiated Rulemaking Act, Regulatory Flexibility Act, Paperwork Reduction Act,
+  Congressional Review of Agency Rulemaking, Equal Access to Justice Act, Contract Disputes
+  Act, Administrative Dispute Resolution Act, E-Government Act of 2002, National
+  Environmental Policy Act, Information Quality Act, Government Performance and Results
+  Act, Federal Register Act, Agency Practice Act, Judicial Review of Agency Action,
+  Rulemaking Requirements from the Executive Office of the President, and Tucker Act.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

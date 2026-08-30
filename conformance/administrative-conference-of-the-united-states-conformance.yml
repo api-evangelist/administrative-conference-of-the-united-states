@@ -1,0 +1,172 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  live probes of sourcebook.acus.gov (Action API, REST API v1, action=rsd,
+  siprop=general|extensions), www.acus.gov (/.well-known/*, robots.txt, VDP page) and
+  eaja.acus.gov on 2026-08-30
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  Standards conformance assessment for the Administrative Conference of the United States.
+  ACUS is an independent federal agency, not a software vendor; its one callable API is
+  the stock MediaWiki 1.43.0 Action + REST interface behind the Federal Administrative
+  Procedure Sourcebook. Conformance is therefore inherited from MediaWiki, not authored
+  by ACUS. Every `conforms: false` below is an honest negative with a probed URL behind
+  it, not a penalty for lacking a standard that does not apply.
+standards:
+  - id: openapi
+    name: OpenAPI Specification
+    conforms: false
+    evidence: >-
+      No OpenAPI document is served on any ACUS host. Probed on www.acus.gov:
+      /openapi.json 404, /openapi.yaml 404, /swagger.json 404, /api-docs 404, /api 404.
+      On sourcebook.acus.gov the MediaWiki spec route /rest.php/specs/v0/module returns
+      404 (rest-no-match), so this install does not emit the OpenAPI description newer
+      MediaWiki versions can produce. On eaja.acus.gov /openapi.json 404.
+  - id: graphql
+    name: GraphQL
+    conforms: false
+    evidence: /graphql returns 404 on www.acus.gov, eaja.acus.gov and sourcebook.acus.gov.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: >-
+      No event, streaming or webhook surface exists on any ACUS property. Not applicable
+      to a document-and-recommendation publisher.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: false
+    evidence: No MCP endpoint published or discoverable; no llms.txt on any host (404).
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+      www.acus.gov, eaja.acus.gov and sourcebook.acus.gov.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      https://sourcebook.acus.gov/api.php?action=rsd returns 200 with
+      <setting name="OAuth">false</setting>. /.well-known/oauth-authorization-server on
+      www.acus.gov returns 404.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on www.acus.gov.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      REST errors return a MediaWiki-specific JSON envelope
+      (errorKey/messageTranslations/httpCode/httpReason) with content-type
+      application/json, not application/problem+json. Observed at
+      https://sourcebook.acus.gov/rest.php/specs/v0/module.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returns 404 on www.acus.gov, eaja.acus.gov and
+      sourcebook.acus.gov — even though ACUS does publish a full HTML Vulnerability
+      Disclosure Policy at https://www.acus.gov/vulnerability-disclosure-policy (200).
+  - id: rfc8594
+    name: RFC 8594 Sunset header
+    conforms: false
+    evidence: No Sunset or Deprecation response headers observed on any probed endpoint.
+  - id: rfc8615
+    name: RFC 8615 well-known URIs
+    conforms: false
+    evidence: Every probed /.well-known/* path returned 404. See well-known/ artifact.
+  - id: pagination
+    name: Documented pagination
+    conforms: true
+    evidence: >-
+      MediaWiki Action API continuation is observed and standard — a top-level `continue`
+      object whose members are replayed as query parameters, with `batchcomplete`
+      terminating a batch. REST search endpoints accept `limit`.
+  - id: conditional-requests
+    name: HTTP conditional requests (ETag / Last-Modified)
+    conforms: true
+    evidence: >-
+      GET https://sourcebook.acus.gov/rest.php/v1/page/Main_Page returns
+      etag "4f13f8c4c277e2899a0f003247c6fb5898d0d094" and
+      last-modified Mon, 16 Jul 2018 18:31:52 GMT with cache-control max-age=5.
+  - id: idempotency
+    name: Idempotency keys
+    conforms: false
+    applicable: false
+    evidence: >-
+      No anonymous write surface exists, so there is nothing to make idempotent. Recorded
+      as not-applicable rather than a failure.
+  - id: mediawiki-action-api
+    name: MediaWiki Action API
+    conforms: true
+    evidence: >-
+      https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo&format=json returns
+      200 with generator "MediaWiki 1.43.0". action=paraminfo&modules=main enumerates 54
+      actions and 8 output formats. action=rsd returns a valid RSD 1.0 discovery document.
+  - id: mediawiki-rest-api-v1
+    name: MediaWiki REST API v1
+    conforms: true
+    evidence: >-
+      /rest.php/v1/page/{title}, /bare, /html, /revision/{id}/bare, /search/page and
+      /search/title all returned 200 with well-formed JSON on 2026-08-30.
+  - id: rsd
+    name: Really Simple Discovery (RSD 1.0)
+    conforms: true
+    evidence: >-
+      https://sourcebook.acus.gov/api.php?action=rsd returns a valid RSD document naming
+      the MediaWiki API endpoint and linking its documentation.
+domain_standards:
+  sector: US federal government — administrative law and regulatory procedure
+  assessment: >-
+    ACUS's market has no machine-readable domain standard that a contract could declare.
+    The candidate government interchange standards were checked and none applies or is
+    present: no OAI-PMH verb surface (probed /oai and the wiki API module list — absent),
+    no DCAT-US / Project Open Data data.json inventory on www.acus.gov, no US Legislative
+    Document Markup (USLM) or Akoma Ntoso serialisation of recommendations, no
+    regulations.gov / Federal Register API mirror. ACUS's own recommendations are
+    published to the Federal Register, whose API is operated by NARA/GPO and is out of
+    ACUS's control.
+  declared: false
+  reward_only: true
+  note: >-
+    Reward-only dimension. No conformance is invented to fill the slot. If ACUS ever
+    publishes a Project Open Data /data.json inventory under the Evidence Act — which the
+    agency's own /data page says it operates under, and for which it has designated a
+    Chief Data Officer — that would be the single highest-value domain-standard signal
+    available to it.
+  probes:
+    - url: https://www.acus.gov/data.json
+      status: 404
+    - url: https://www.acus.gov/.well-known/api-catalog
+      status: 404
+    - url: https://www.acus.gov/oai
+      status: 404
+    - url: https://sourcebook.acus.gov/oai
+      status: 404
+compliance_certifications: []
+compliance_note: >-
+  ACUS publishes no SOC 2, ISO 27001, PCI, HIPAA or FedRAMP attestation and no trust
+  center. As a federal agency its obligations run through FISMA, the Privacy Act and CISA
+  Binding Operational Directives rather than commercial audit programs, so no
+  `Compliance` pointer is emitted — the underlying thing is not present.
+regulatory_context:
+  - name: CISA Binding Operational Directive 20-01
+    satisfied: true
+    evidence: https://www.acus.gov/vulnerability-disclosure-policy (200), dated 2021-03-29
+  - name: Foundations for Evidence-Based Policymaking Act of 2018
+    satisfied: partial
+    evidence: >-
+      https://www.acus.gov/data (200) states ACUS operates under the Evidence Act and
+      names Research Director Jeremy Graboyes as Chief Data Officer, but publishes no
+      machine-readable data inventory.
+  - name: John D. Dingell, Jr. Conservation, Management, and Recreation Act (2019)
+    satisfied: true
+    evidence: >-
+      https://eaja.acus.gov (200) is the statutorily required publicly available, online,
+      searchable EAJA awards database. It is an HTML application with no API.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

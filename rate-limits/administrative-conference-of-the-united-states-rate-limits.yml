@@ -1,98 +1,78 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-08-30'
+method: probed
+source: >-
+  response-header inspection of https://sourcebook.acus.gov/api.php and
+  https://sourcebook.acus.gov/rest.php/v1/*, plus robots.txt on www.acus.gov,
+  eaja.acus.gov and sourcebook.acus.gov, all 2026-08-30
 provider: Administrative Conference of the United States
 providerId: administrative-conference-of-the-united-states
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-08-30'
 tags:
   - Federal Government
-  - Regulatory Reform
   - Administrative Law
-  - Government Efficiency
   - Open Data
-  - Policy Research
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Administrative Conference of the United States
-  API surface. Captures per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults
-  are scaffold values to be replaced with published provider limits.
+description: >-
+  ACUS publishes no rate limits. This artifact replaces a 2026-05-04 bulk-sweep scaffold
+  that asserted free/professional/enterprise tiers, X-RateLimit-* headers and per-minute
+  quotas — none of which ACUS has ever published or emitted. Every value below was either
+  observed on the wire or is recorded as absent.
+limit_count: 0
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  observed: []
+  note: >-
+    No X-RateLimit-*, no RateLimit-* (RFC 9331 draft), no Retry-After and no
+    RateLimit-Policy header appeared on any probed response from any acus.gov host.
+    Headers actually returned by the Sourcebook API are cache and trace headers only:
+    x-request-id, etag, last-modified, cache-control, vary, x-content-type-options,
+    x-frame-options.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Equal Access to Justice Act (EAJA) Database
-      - Federal Administrative Adjudication Database
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Equal Access to Justice Act (EAJA) Database
-      - Federal Administrative Adjudication Database
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Equal Access to Justice Act (EAJA) Database
-      - Federal Administrative Adjudication Database
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Equal Access to Justice Act (EAJA) Database
-      - Federal Administrative Adjudication Database
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Equal Access to Justice Act (EAJA) Database
-      - Federal Administrative Adjudication Database
+  throttled: null
+  quotaExceeded: null
+  note: >-
+    No 429 was observed and none is documented. The only non-200 status reliably produced
+    at the edge is 403, and that is User-Agent based rather than volume based — see
+    errors/administrative-conference-of-the-united-states-problem-types.yml.
+limits: []
+published_throttling_signals:
+  - type: robots-crawl-delay
+    host: www.acus.gov
+    url: https://www.acus.gov/robots.txt
+    status: 200
+    value: 'Crawl-delay: 2 (SeekportBot only; no directive for User-agent: *)'
+  - type: robots-crawl-delay
+    host: eaja.acus.gov
+    url: https://eaja.acus.gov/robots.txt
+    status: 200
+    value: 'Crawl-delay: 2 for User-agent: *'
+  - type: robots-crawl-delay
+    host: sourcebook.acus.gov
+    url: https://sourcebook.acus.gov/robots.txt
+    status: 200
+    value: 'Crawl-delay: 2 for User-agent: *'
+  - type: robots-disallow
+    hosts: [www.acus.gov, eaja.acus.gov, sourcebook.acus.gov]
+    value: 'MJ12bot: Disallow: /'
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Crawl delay is the only stated pacing guidance
+    description: >-
+      In the absence of any documented API limit, a 2-second delay between requests — the
+      Crawl-delay the agency publishes for general crawlers — is the only pacing signal
+      ACUS gives. MediaWiki's own convention of batching with `continue` and honouring
+      ETag/Last-Modified applies.
+  - name: Corpus size makes throttling largely moot
+    description: >-
+      The Sourcebook wiki holds 30 pages, 21 content articles and 0 files
+      (siprop=statistics, 2026-08-30). A complete harvest is a handful of requests, so
+      well-behaved clients will never approach any plausible limit.
+agent_note: >-
+  The practical access constraint on ACUS data is not rate limiting; it is the edge's
+  blanket HTTP 403 for non-browser User-Agents, which stops a default HTTP client at
+  request one.
 maintainers:
   - FN: Kin Lane
     X-twitter: apievangelist

@@ -1,0 +1,42 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  npm registry search (registry.npmjs.org/-/v1/search), PyPI (pypi.org/pypi/<pkg>/json),
+  plus the acus.gov site and GitHub org probes (api.github.com/orgs/acus-gov 404,
+  api.github.com/orgs/acusgov 404)
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  No first-party client library, SDK, or CLI is published by ACUS in any public package
+  registry. ACUS operates no GitHub organization. The one live API surface it runs — the
+  MediaWiki Action and REST APIs on sourcebook.acus.gov — is reachable with generic
+  third-party MediaWiki clients (mwclient, pywikibot, nodemw), but none of those are
+  ACUS-authored and none are listed here as first-party.
+package_count: 0
+official_package_count: 0
+packages: []
+registries_checked:
+  - registry: npm
+    endpoint: https://registry.npmjs.org/-/v1/search?text=acus.gov
+    status: 200
+    result: 0 objects
+  - registry: pypi
+    endpoint: https://pypi.org/pypi/acus/json
+    status: 404
+    result: no such project
+  - registry: github-org
+    endpoint: https://api.github.com/orgs/acus-gov
+    status: 404
+    result: no ACUS GitHub organization
+  - registry: github-org
+    endpoint: https://api.github.com/orgs/acusgov
+    status: 404
+    result: no ACUS GitHub organization
+note: >-
+  version: and published: fields are omitted rather than nulled because there is no package
+  to date — the honest record is package_count 0, not an undated entry. Re-check if ACUS
+  ever stands up a developer program around the Sourcebook or EAJA data.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

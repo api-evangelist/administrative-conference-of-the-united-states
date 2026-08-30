@@ -1,0 +1,143 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  every request below was issued live against sourcebook.acus.gov on 2026-08-30 and the
+  responses are the real bodies, truncated where noted
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+api: Federal Administrative Procedure Sourcebook API
+description: >-
+  Working, copy-pasteable request/response examples for the one callable ACUS API. ACUS
+  publishes no examples of its own — these were captured from live probes so an
+  integrator or agent has a grounded starting point. Every request MUST carry a
+  browser-like User-Agent header or the edge returns HTTP 403.
+required_headers:
+  User-Agent: >-
+    Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)
+    Chrome/126.0.0.0 Safari/537.36
+  note: >-
+    Not an ACUS requirement — an edge policy. curl/8.7.1, python-requests/2.31.0 and
+    GPTBot/1.0 all received 403 for these same URLs on 2026-08-30.
+examples:
+  - name: Site metadata and platform version
+    method: GET
+    url: https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo&siprop=general&format=json
+    status: 200
+    content_type: application/json; charset=utf-8
+    response_excerpt: |-
+      {"batchcomplete":"","query":{"general":{"mainpage":"Main Page",
+      "base":"https://sourcebook.acus.gov/wiki/Main_Page","sitename":"acus wiki",
+      "generator":"MediaWiki 1.43.0","phpversion":"8.3.30","dbtype":"mysql",
+      "articlepath":"/wiki/$1","script":"/index.php","server":"https://sourcebook.acus.gov",
+      "timezone":"America/New_York","lang":"en"}}}
+  - name: Corpus size
+    method: GET
+    url: https://sourcebook.acus.gov/api.php?action=query&meta=siteinfo&siprop=statistics&format=json
+    status: 200
+    response_excerpt: |-
+      {"query":{"statistics":{"pages":30,"articles":21,"edits":1998,"images":0,
+      "users":24,"activeusers":1,"admins":8,"jobs":0}}}
+  - name: Enumerate every Sourcebook entry (with continuation)
+    method: GET
+    url: https://sourcebook.acus.gov/api.php?action=query&list=allpages&aplimit=25&format=json
+    status: 200
+    response_excerpt: |-
+      titles returned: ACUS, Administrative Dispute Resolution Act, Administrative Procedure Act,
+      Agency Practice Act, American Bar Association, Congressional Review of Agency Rulemaking,
+      Contract Disputes Act, E-Government Act of 2002, Equal Access to Justice Act,
+      Federal Administrative Procedure Sourcebook, Federal Advisory Committee Act,
+      Federal Register Act, Freedom of Information Act, Government Performance and Results Act,
+      Government in the Sunshine Act, Information Quality Act, Judicial Review of Agency Action,
+      Main Page, National Environmental Policy Act, Negotiated Rulemaking Act,
+      Paperwork Reduction Act, Privacy Act, Regulatory Flexibility Act,
+      Rulemaking Requirements from the Executive Office of the President, Template
+      continue: {"apcontinue":"Tucker_Act","continue":"-||"}
+    pagination_note: >-
+      Replay the members of `continue` verbatim as query parameters to fetch the next
+      batch. `batchcomplete` marks the end of a batch.
+  - name: Fetch one statute page with its wikitext source
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/page/Equal_Access_to_Justice_Act
+    status: 200
+    content_type: application/json
+    response_excerpt: |-
+      {"id":29,"key":"Equal_Access_to_Justice_Act","title":"Equal Access to Justice Act",
+      "latest":{"id":1993,"timestamp":"2026-..."},"content_model":"wikitext",
+      "license":{"url":"","title":""},"source":"..."}
+  - name: Fetch page metadata only (no body)
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/page/Equal_Access_to_Justice_Act/bare
+    status: 200
+    note: Cheapest way to check whether a page changed; pair with the ETag.
+  - name: Fetch rendered HTML for a page
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/page/Equal_Access_to_Justice_Act/html
+    status: 200
+    content_type: text/html
+    response_excerpt: |-
+      <!DOCTYPE html><html prefix="dc: http://purl.org/dc/terms/ mw: http://mediawiki.org/rdf/"
+      about="https://sourcebook.acus.gov/...">
+    note: Parsoid HTML with RDFa annotations.
+  - name: Full-text search the Sourcebook
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/search/page?q=rulemaking&limit=1
+    status: 200
+    response_excerpt: |-
+      {"pages":[{"id":8,"key":"Negotiated_Rulemaking_Act","title":"Negotiated Rulemaking Act",
+      "excerpt":"...Thus, there does n..."}]}
+  - name: Title prefix search
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/search/title?q=rule&limit=1
+    status: 200
+    response_excerpt: |-
+      {"pages":[{"id":30,"key":"Rulemaking_Requirements_from_the_Executive_Office_of_the_President",
+      "title":"Rulemaking Requirements from the Executive Office of the President"}]}
+  - name: Fetch a single revision
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/revision/55/bare
+    status: 200
+    response_excerpt: |-
+      {"id":55,"size":57,"minor":false,"timestamp":"2018-07-16T18:31:52Z",
+      "content_model":"wikitext","page":{"id":4,"key":"Main_Page"}}
+  - name: Discovery document (RSD 1.0)
+    method: GET
+    url: https://sourcebook.acus.gov/api.php?action=rsd
+    status: 200
+    content_type: application/xml
+    response_excerpt: |-
+      <rsd version="1.0"><service><apis><api name="MediaWiki" preferred="true"
+      apiLink="https://sourcebook.acus.gov/api.php"><settings>
+      <docs>https://www.mediawiki.org/wiki/Special:MyLanguage/API</docs>
+      <setting name="OAuth">false</setting></settings></api></apis></service></rsd>
+  - name: Enumerate the whole action surface
+    method: GET
+    url: https://sourcebook.acus.gov/api.php?action=paraminfo&modules=main&format=json
+    status: 200
+    response_excerpt: |-
+      54 actions available, including: query, parse, opensearch, compare, expandtemplates,
+      feedrecentchanges, feedcontributions, help, paraminfo, rsd, edit, upload, move,
+      delete, protect, rollback, undelete. Output formats: json, jsonfm, none, php,
+      phpfm, rawfm, xml, xmlfm.
+error_examples:
+  - name: Unrouted REST path
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/specs/v0/module
+    status: 404
+    response: |-
+      {"errorKey":"rest-no-match","messageTranslations":{"en":"The requested relative path
+      (/specs/v0/module) did not match any known handler"},"httpCode":404,
+      "httpReason":"Not Found"}
+    note: >-
+      This is the probe that establishes the wiki publishes no OpenAPI description of
+      its REST API.
+  - name: Non-browser User-Agent refused at the edge
+    method: GET
+    url: https://sourcebook.acus.gov/rest.php/v1/page/Main_Page
+    request_header: 'User-Agent: curl/8.7.1'
+    status: 403
+    content_type: text/html
+    note: The same URL with a Chrome User-Agent returns 200.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

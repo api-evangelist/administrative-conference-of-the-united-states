@@ -1,0 +1,159 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  live probes of https://sourcebook.acus.gov/api.php and
+  https://sourcebook.acus.gov/rest.php/v1/* on 2026-08-30 (response bodies and headers),
+  cross-read against the MediaWiki 1.43 Action API help served at
+  https://sourcebook.acus.gov/api.php
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  Cross-cutting runtime semantics for the one callable ACUS API surface, the MediaWiki
+  Action API and REST API v1 behind the Federal Administrative Procedure Sourcebook at
+  sourcebook.acus.gov. Everything below was observed on the wire; nothing is inferred
+  from a vendor claim, because ACUS publishes no API documentation of its own — the
+  contract is whatever MediaWiki 1.43.0 exposes.
+surfaces:
+  - name: MediaWiki Action API
+    base: https://sourcebook.acus.gov/api.php
+    style: RPC-over-querystring (action= parameter)
+    actions_available: 54
+    formats: [json, jsonfm, none, php, phpfm, rawfm, xml, xmlfm]
+    self_documenting: https://sourcebook.acus.gov/api.php
+  - name: MediaWiki REST API v1
+    base: https://sourcebook.acus.gov/rest.php/v1
+    style: resource-oriented REST
+    verified_paths:
+      - /page/{title}
+      - /page/{title}/bare
+      - /page/{title}/html
+      - /revision/{id}/bare
+      - /search/page?q=&limit=
+      - /search/title?q=&limit=
+auth_style:
+  read: anonymous, no credential of any kind
+  write: MediaWiki session cookie plus a CSRF token from action=query&meta=tokens
+  oauth: not installed (action=rsd reports OAuth false)
+  see: authentication/administrative-conference-of-the-united-states-authentication.yml
+versioning:
+  scheme: path-versioned on REST (/rest.php/v1/), unversioned on the Action API
+  current_version: MediaWiki 1.43.0 (siprop=general generator field)
+  deprecation_signalling: >-
+    None published by ACUS. Upstream MediaWiki emits deprecation warnings in the
+    Action API `warnings` envelope; no Deprecation or Sunset (RFC 8594) response
+    headers were observed on any probed response.
+pagination:
+  action_api:
+    style: continuation token
+    request_params: ['continue', 'limit', '{prefix}limit', '{prefix}continue']
+    response_field: continue
+    note: >-
+      The Action API returns a top-level `continue` object whose members are fed back
+      verbatim as query parameters on the next request. `batchcomplete` marks the end
+      of a batch.
+  rest_api:
+    style: bounded result set
+    request_params: [limit]
+    response_field: pages
+    note: >-
+      /search/page and /search/title accept `limit` and return a `pages` array. No cursor
+      or offset field was returned on the probed responses.
+field_selection:
+  action_api: >-
+    `prop`, `list`, `meta` and `siprop` select which projections are returned; `*props`
+    parameters narrow fields per submodule. This is genuine sparse-fieldset control.
+  rest_api: >-
+    Representation is chosen by path suffix, not a query parameter — /bare returns the
+    metadata envelope, no suffix returns metadata plus wikitext `source`, /html returns
+    Parsoid HTML.
+error_envelope:
+  rest_api:
+    content_type: application/json
+    shape:
+      errorKey: machine-readable error slug, e.g. rest-no-match
+      messageTranslations: object of BCP-47 language code to human message
+      httpCode: integer, mirrors the HTTP status
+      httpReason: HTTP reason phrase
+    rfc9457: false
+    note: >-
+      Structured and machine-readable but NOT application/problem+json — no type, title,
+      detail or instance members. See errors/administrative-conference-of-the-united-states-problem-types.yml.
+  action_api:
+    content_type: application/json
+    shape:
+      errors: array of {code, module, "*"} when formatversion=2 / errorformat is set
+      warnings: array, used for deprecation and parameter warnings
+      servedby: request node identifier
+    note: >-
+      The Action API answers HTTP 200 for most application-level errors and reports the
+      failure inside the body. An agent MUST parse the body, not the status code.
+request_id_tracing:
+  header: x-request-id
+  observed: true
+  example: apQH1-iZEGwdCsKBP0ackAAAAIE
+  note: >-
+    Present on both the Action API and REST responses. Useful for a support report, but
+    ACUS publishes no support channel that accepts it.
+rate_limit_signalling:
+  headers_observed: []
+  note: >-
+    No X-RateLimit-*, no RateLimit-*, no Retry-After on any probed response. The only
+    published throttling signal on any acus.gov host is `Crawl-delay: 2` in robots.txt.
+    See rate-limits/administrative-conference-of-the-united-states-rate-limits.yml.
+caching:
+  action_api: 'cache-control: private, must-revalidate, max-age=0; vary: Accept-Encoding,Treat-as-Untrusted,Cookie'
+  rest_api: 'cache-control: max-age=5; etag and last-modified both present; vary: x-restbase-compat'
+  conditional_requests: supported on REST (ETag / Last-Modified observed)
+content_negotiation:
+  action_api: format= query parameter (json is the practical default; jsonfm is the HTML debug view)
+  rest_api: fixed per path suffix; application/json for metadata, text/html for /html
+security_headers:
+  x-content-type-options: nosniff
+  x-frame-options: DENY (Action API)
+  server: Apache/2.4.62 (Amazon Linux)
+idempotency:
+  supported: na
+  reason: >-
+    The publicly reachable surface is read-only. Every anonymously callable operation is a
+    GET and is therefore naturally idempotent. No idempotency key header is offered, and
+    none is needed, because there is no anonymous write path. NOT scored as a miss — scored
+    as not-applicable.
+dry_run_mode:
+  supported: na
+  reason: No anonymous write surface to rehearse.
+reversibility:
+  applicable: false
+  grade: na
+  reason: >-
+    Read-only for every consumer who can actually authenticate. All 54 Action API modules
+    are advertised, but the write half (edit, upload, move, delete, protect, revisiondelete,
+    rollback, undelete, userrights, block) requires a Sourcebook wiki account and the wiki
+    offers no public registration, so no agent or third-party integrator has a write path
+    that could need reversing.
+  write_surfaces: []
+  note: >-
+    For completeness: MediaWiki itself carries strong native reversal semantics for
+    account holders — action=undelete restores deleted pages, action=rollback reverts the
+    last contributor's consecutive edits, and revision history makes every edit
+    reversible without a stated time window. ACUS publishes no policy stating a retention
+    or restoration window, so no window is asserted here.
+agent_notes:
+  - >-
+    A default HTTP client cannot reach this API. curl, python-requests and GPTBot all
+    receive HTTP 403 from every acus.gov host; only a browser User-Agent returns 200.
+    Any agent integration must set a browser-like User-Agent, which is at odds with
+    MediaWiki's own convention of sending a descriptive bot UA.
+  - >-
+    The corpus is small and stable: 30 pages, 21 content articles, 1,998 edits, 0 files
+    (siprop=statistics, 2026-08-30). A full harvest is a handful of requests, so polling
+    should be rare and conditional requests (ETag) should be used.
+cross_references:
+  errors: errors/administrative-conference-of-the-united-states-problem-types.yml
+  authentication: authentication/administrative-conference-of-the-united-states-authentication.yml
+  lifecycle: lifecycle/administrative-conference-of-the-united-states-lifecycle.yml
+  rate_limits: rate-limits/administrative-conference-of-the-united-states-rate-limits.yml
+  conformance: conformance/administrative-conference-of-the-united-states-conformance.yml
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com

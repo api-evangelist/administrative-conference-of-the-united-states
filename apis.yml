@@ -27,7 +27,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/administrative-conference-of-the-united-states/refs/heads/main/apis.yml
 name: Administrative Conference of the United States
 created: '2024-11-20'
-modified: '2026-04-19'
+modified: '2026-08-30'
 specificationVersion: '0.23'
 tags:
   - Federal-Government
@@ -64,7 +64,7 @@ apis:
       Congress annually, with data accessible through the ACUS website. The
       database provides transparency into government litigation costs and EAJA
       awards by agency, fiscal year, and case type.
-    humanURL: https://www.acus.gov/data
+    humanURL: https://eaja.acus.gov
     tags:
       - Equal Access to Justice
       - Administrative Law
@@ -72,8 +72,10 @@ apis:
       - Legal
     properties:
       - type: Documentation
-        url: https://www.acus.gov/data
-      - type: DataAPI
+        url: https://www.acus.gov/eaja
+      - type: Database
+        url: https://eaja.acus.gov
+      - type: Website
         url: https://www.acus.gov/data
   - aid: administrative-conference-of-the-united-states:federal-administrative-adjudication-database
     name: Federal Administrative Adjudication Database
@@ -84,7 +86,7 @@ apis:
       database tracks administrative law judges, adjudicative proceedings,
       hearing processes, and adjudication statistics across federal agencies
       to support research and policy reform.
-    humanURL: https://acus.gov/recommendations
+    humanURL: https://acus.law.stanford.edu/
     tags:
       - Administrative Law
       - Adjudication
@@ -92,10 +94,85 @@ apis:
       - Research
     properties:
       - type: Documentation
-        url: https://acus.gov/recommendations
-      - type: DataAPI
-        url: https://acus.gov/recommendations
+        url: https://www.acus.gov/page/adjudication
+      - type: Database
+        url: https://acus.law.stanford.edu/
+      - type: Website
+        url: https://www.acus.gov/recommendations
+  - aid: administrative-conference-of-the-united-states:federal-administrative-procedure-sourcebook
+    name: Federal Administrative Procedure Sourcebook API
+    description: >-
+      The Federal Administrative Procedure Sourcebook is ACUS's reference wiki covering the
+      core statutes of U.S. federal administrative procedure — the Administrative Procedure
+      Act, FOIA, the Privacy Act, the Government in the Sunshine Act, FACA, the Negotiated
+      Rulemaking Act, the Regulatory Flexibility Act, the Paperwork Reduction Act, the Equal
+      Access to Justice Act and more. It runs on MediaWiki 1.43.0 and exposes both the
+      MediaWiki Action API at /api.php and the MediaWiki REST API v1 at /rest.php/v1.
+      Both answer anonymously with no API key, account or quota. This is the only
+      programmatically callable interface ACUS operates. Note that every acus.gov host
+      returns HTTP 403 to non-browser user agents, so a client must send a browser-like
+      User-Agent header.
+    humanURL: https://sourcebook.acus.gov/wiki/Federal_Administrative_Procedure_Sourcebook
+    baseURL: https://sourcebook.acus.gov/api.php
+    tags:
+      - Administrative Law
+      - Administrative Procedure Act
+      - Legal Reference
+      - Open Data
+      - Federal Government
+      - MediaWiki
+    properties:
+      - type: APIReference
+        url: https://sourcebook.acus.gov/api.php
+      - type: Documentation
+        url: https://sourcebook.acus.gov/wiki/Federal_Administrative_Procedure_Sourcebook
+      - type: Examples
+        url: examples/administrative-conference-of-the-united-states-sourcebook-api-examples.yml
+      - type: Authentication
+        url: authentication/administrative-conference-of-the-united-states-authentication.yml
+      - type: Conventions
+        url: conventions/administrative-conference-of-the-united-states-conventions.yml
+      - type: ErrorCatalog
+        url: errors/administrative-conference-of-the-united-states-problem-types.yml
+      - type: RateLimits
+        url: rate-limits/administrative-conference-of-the-united-states-rate-limits.yml
 common:
+  - type: Authentication
+    url: authentication/administrative-conference-of-the-united-states-authentication.yml
+  - type: Conventions
+    url: conventions/administrative-conference-of-the-united-states-conventions.yml
+  - type: ErrorCatalog
+    url: errors/administrative-conference-of-the-united-states-problem-types.yml
+  - type: Conformance
+    url: conformance/administrative-conference-of-the-united-states-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/administrative-conference-of-the-united-states-lifecycle.yml
+  - type: Examples
+    url: examples/administrative-conference-of-the-united-states-sourcebook-api-examples.yml
+  - type: LLMsTxt
+    url: llms/administrative-conference-of-the-united-states-llms.txt
+  - type: Packages
+    url: packages/administrative-conference-of-the-united-states-packages.yml
+  - type: Plans
+    url: plans/administrative-conference-of-the-united-states-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/administrative-conference-of-the-united-states-rate-limits.yml
+  - type: VulnerabilityDisclosure
+    url: security/administrative-conference-of-the-united-states-vulnerability-disclosure.yml
+  - type: Security
+    url: https://www.acus.gov/vulnerability-disclosure-policy
+  - type: APIReference
+    url: https://sourcebook.acus.gov/api.php
+  - type: Documentation
+    url: https://www.acus.gov/page/resources
+  - type: PrivacyPolicy
+    url: https://www.acus.gov/document/privacy-policy
+  - type: Blog
+    url: https://www.acus.gov/blog
+  - type: BlogRSS
+    url: https://www.acus.gov/rss.xml
+  - type: Support
+    url: https://www.acus.gov/about-acus
   - type: DomainSecurity
     url: security/administrative-conference-of-the-united-states-domain-security.yml
   - type: LinkedIn
@@ -173,3 +250,8 @@ maintainers:
   - FN: Kin Lane
     X-twitter: apievangelist
     email: info@apievangelist.com
+x-enrichment:
+  date: '2026-08-30'
+  status: enriched
+  artifacts_added: 11
+  pass: local-v1

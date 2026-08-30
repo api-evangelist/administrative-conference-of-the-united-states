@@ -1,0 +1,106 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  error responses observed live on https://sourcebook.acus.gov/rest.php/* and
+  https://sourcebook.acus.gov/api.php on 2026-08-30, plus edge 403 responses observed
+  across every acus.gov host
+provider: Administrative Conference of the United States
+providerId: administrative-conference-of-the-united-states
+description: >-
+  Error catalog for the Federal Administrative Procedure Sourcebook API — the one
+  callable ACUS API surface. ACUS publishes no error reference of its own, so every entry
+  below was captured from a real response. The REST API returns a structured JSON error
+  envelope; the Action API reports most application errors inside a HTTP 200 body; the
+  CDN/edge in front of every acus.gov host returns an HTML 403 to non-browser clients.
+format: mediawiki-rest-error
+rfc9457: false
+rfc9457_note: >-
+  The envelope is machine-readable but is not application/problem+json and carries none
+  of the RFC 9457 members (type, title, detail, instance). An agent cannot treat these as
+  Problem Details without a provider-specific adapter.
+envelope:
+  content_type: application/json
+  fields:
+    errorKey: stable machine-readable slug identifying the error class
+    messageTranslations: object keyed by BCP-47 language code carrying the human message
+    httpCode: integer duplicating the HTTP status code
+    httpReason: HTTP reason phrase
+  example: |-
+    {
+      "errorKey": "rest-no-match",
+      "messageTranslations": {
+        "en": "The requested relative path (/specs/v0/module) did not match any known handler"
+      },
+      "httpCode": 404,
+      "httpReason": "Not Found"
+    }
+problem_types:
+  - key: rest-no-match
+    status: 404
+    surface: MediaWiki REST API v1
+    title: Requested relative path did not match any known handler
+    observed_at: https://sourcebook.acus.gov/rest.php/specs/v0/module
+    cause: >-
+      The path is not routed by this MediaWiki install. Notably this is what
+      /rest.php/specs/v0/module returns, which is how we established that the wiki
+      publishes no OpenAPI description of its own REST API.
+    remediation: >-
+      Use only the verified paths — /v1/page/{title}, /v1/page/{title}/bare,
+      /v1/page/{title}/html, /v1/revision/{id}/bare, /v1/search/page, /v1/search/title.
+  - key: edge-user-agent-forbidden
+    status: 403
+    surface: every acus.gov host (www, eaja, sourcebook)
+    title: Forbidden — non-browser User-Agent refused at the edge
+    content_type: text/html
+    observed_at: https://sourcebook.acus.gov/rest.php/v1/page/Main_Page
+    cause: >-
+      The request carried a default client User-Agent. Measured 2026-08-30: curl/8.7.1,
+      python-requests/2.31.0 and GPTBot/1.0 all received 403 while a desktop Chrome UA
+      received 200 for the identical URL.
+    remediation: >-
+      Send a browser-like User-Agent header. This is an edge policy and not an
+      authentication or authorization failure — there is no credential that resolves it.
+    note: >-
+      This response is an HTML error page, not the JSON envelope, so a client that only
+      parses JSON on failure will fail to surface a useful message.
+  - key: drupal-not-found
+    status: 404
+    surface: www.acus.gov
+    title: Page not found (Drupal HTML 404)
+    content_type: text/html
+    observed_at: https://www.acus.gov/openapi.json
+    cause: Unrouted path on the ACUS Drupal 10 site.
+    remediation: n/a — www.acus.gov serves no API; it is a content site.
+    note: >-
+      Returns a ~43KB full HTML page with a correct 404 status. Not a soft-404, but a
+      client must read the status code, not the body length.
+  - key: entity-parameter-not-converted
+    status: 404
+    surface: www.acus.gov Drupal REST
+    title: Route parameter could not be converted
+    content_type: application/json
+    observed_at: https://www.acus.gov/node/1?_format=json
+    body: >-
+      {"message":"The \"node\" parameter was not converted for the path \"/node/{node}\"
+      (route name: \"entity.node.canonical\")"}
+    cause: >-
+      Drupal's core REST serializer is enabled and answers ?_format=json, but node 1 does
+      not exist. This is the only JSON error shape www.acus.gov emits, and it is
+      incidental Drupal behaviour rather than a published API.
+    remediation: >-
+      Do not treat ?_format=json on www.acus.gov as an API. ACUS does not document it and
+      /jsonapi returns the HTML 404 page, so the JSON:API module is not enabled.
+action_api_behaviour:
+  http_status_on_error: 200
+  detail: >-
+    The MediaWiki Action API returns HTTP 200 with the failure described in the response
+    body for most application-level errors. Clients MUST parse the body. With
+    errorformat/formatversion set, failures appear under an `errors` array of
+    {code, module, text} and non-fatal problems under `warnings`.
+  agent_warning: >-
+    Status-code-only error handling will silently treat Action API failures as successes.
+    This is the most consequential integration hazard on this surface.
+maintainers:
+  - FN: Kin Lane
+    X-twitter: apievangelist
+    email: info@apievangelist.com
