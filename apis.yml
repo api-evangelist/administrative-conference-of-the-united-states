@@ -119,6 +119,13 @@ apis:
       - Administrative Procedure Act
       - Legal Reference
       - Open Data
+      - Federal-Government
+      - MediaWiki
+    tags_raw:
+      - Administrative Law
+      - Administrative Procedure Act
+      - Legal Reference
+      - Open Data
       - Federal Government
       - MediaWiki
     properties:
