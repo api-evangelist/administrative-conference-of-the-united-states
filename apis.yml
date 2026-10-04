@@ -30,7 +30,7 @@ created: '2024-11-20'
 modified: '2026-08-30'
 specificationVersion: '0.23'
 tags:
-  - Federal-Government
+  - Federal Government
   - Regulatory Reform
   - Administrative Law
   - Government Efficiency
@@ -43,6 +43,7 @@ tags_raw:
   - Government Efficiency
   - Open Data
   - Policy Research
+  - Federal-Government
 description: >-
   The Administrative Conference of the United States (ACUS) is an independent
   federal agency within the executive branch whose statutory mission is to
@@ -119,7 +120,7 @@ apis:
       - Administrative Procedure Act
       - Legal Reference
       - Open Data
-      - Federal-Government
+      - Federal Government
       - MediaWiki
     tags_raw:
       - Administrative Law
@@ -128,6 +129,7 @@ apis:
       - Open Data
       - Federal Government
       - MediaWiki
+      - Federal-Government
     properties:
       - type: APIReference
         url: https://sourcebook.acus.gov/api.php
