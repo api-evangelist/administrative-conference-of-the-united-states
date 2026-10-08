@@ -146,6 +146,8 @@ apis:
       - type: RateLimits
         url: rate-limits/administrative-conference-of-the-united-states-rate-limits.yml
 common:
+  - type: FinOps
+    url: finops/administrative-conference-of-the-united-states-finops.yml
   - type: Authentication
     url: authentication/administrative-conference-of-the-united-states-authentication.yml
   - type: Conventions
