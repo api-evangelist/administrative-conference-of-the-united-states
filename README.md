@@ -1,4 +1,4 @@
-# Administrative Conference of the United States (administrative-conference-of-the-united-states)
+# Administrative Conference of the United States
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,79 +66,115 @@
 
 The Administrative Conference of the United States (ACUS) is an independent federal agency within the executive branch whose statutory mission is to identify ways to improve the procedures by which federal agencies administer regulatory, benefit, and other government programs. ACUS issues approximately a dozen recommendations per year to agencies, Congress, the President, and the Judicial Conference, aimed at enhancing efficiency and fairness in administrative procedures. The agency maintains the Federal Administrative Adjudication Database (with Stanford Law School), the Equal Access to Justice Act (EAJA) online database, and various open data resources under the Foundations for Evidence-Based Policymaking Act of 2018.
 
-**URL:** [https://www.acus.gov/](https://www.acus.gov/)
+**Areas:** Federal Government · Regulatory Reform · Administrative Law · Government Efficiency · Open Data · Policy Research
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Administrative Conference of the United States on APIs.io
 
-## Tags:
+Everything profiled for Administrative Conference of the United States is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/administrative-conference-of-the-united-states/](https://apis.io/providers/administrative-conference-of-the-united-states/)** — or go straight to one of the APIs or properties below.
 
- - Federal Government, Regulatory Reform, Administrative Law, Government Efficiency, Open Data, Policy Research
+### APIs (3)
 
-## Timestamps
+- [Equal Access to Justice Act (EAJA) Database](https://apis.io/apis/administrative-conference-of-the-united-states/eaja-database/) — ACUS maintains an online database of Equal Access to Justice Act (EAJA) awards, tracking awards of attorney's fees and other costs against the United States…
+- [Federal Administrative Adjudication Database](https://apis.io/apis/administrative-conference-of-the-united-states/federal-administrative-adjudication-database/) — A joint project between ACUS and Stanford Law School, the Federal Administrative Adjudication Database provides comprehensive data on federal agency…
+- [Federal Administrative Procedure Sourcebook API](https://apis.io/apis/administrative-conference-of-the-united-states/federal-administrative-procedure-sourcebook/) — The Federal Administrative Procedure Sourcebook is ACUS's reference wiki covering the core statutes of U.S. federal administrative procedure — the…
 
-- **Created:** 2024-11-20
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Equal Access to Justice Act (EAJA) Database
-ACUS maintains an online database of Equal Access to Justice Act (EAJA) awards, tracking awards of attorney's fees and other costs against the United States government. ACUS collects and reports this information to Congress annually, with data accessible through the ACUS website. The database provides transparency into government litigation costs and EAJA awards by agency, fiscal year, and case type.
+#### MCP servers (1)
 
-**Human URL:** [https://www.acus.gov/data](https://www.acus.gov/data)
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags:
+- [administrative-conference-of-the-united-states-mcp.yml](https://apis.io/servers/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-mcp-yml/)
 
- - Equal Access to Justice, Administrative Law, Open Data, Legal
+#### Security (3)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://www.acus.gov/data)
-- [DataAPI](https://www.acus.gov/data)
+- [Administrative Conference Of The United States Authentication](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-authentication/)
+- [Administrative Conference Of The United States Domain Security](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-domain-security/)
+- [Administrative Conference Of The United States Vulnerability Disclosure](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-vulnerability-disclosure/)
 
-### Federal Administrative Adjudication Database
-A joint project between ACUS and Stanford Law School, the Federal Administrative Adjudication Database provides comprehensive data on federal agency adjudication processes across the U.S. government. The database tracks administrative law judges, adjudicative proceedings, hearing processes, and adjudication statistics across federal agencies to support research and policy reform.
+#### Plans and pricing (1)
 
-**Human URL:** [https://acus.gov/recommendations](https://acus.gov/recommendations)
+Published plans, tiers and prices.
 
-#### Tags:
+- [Administrative Conference Of The United States Plans Pricing](https://apis.io/plans/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-plans-pricing/)
 
- - Administrative Law, Adjudication, Open Data, Research
+#### Rate limits (1)
 
-#### Properties
+Published request limits.
 
-- [Documentation](https://acus.gov/recommendations)
-- [DataAPI](https://acus.gov/recommendations)
+- [Administrative Conference Of The United States Rate Limits](https://apis.io/rate-limits/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-rate-limits/)
 
-## Common Properties
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Administrative Conference Of The United States Finops](https://apis.io/finops/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.acus.gov/)
-- [Portal](https://www.acus.gov/)
-- [Resources](https://www.acus.gov/page/resources)
-- [Contact](https://www.acus.gov/about-acus)
+- [Documentation](https://www.acus.gov/page/resources)
+- [API reference](https://sourcebook.acus.gov/api.php)
+- [Support](https://www.acus.gov/about-acus)
+- [Blog](https://www.acus.gov/blog)
+- [Security](https://www.acus.gov/vulnerability-disclosure-policy)
+- [Privacy policy](https://www.acus.gov/document/privacy-policy)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| Regulatory Reform Recommendations | Issues approximately a dozen formal recommendations per year to federal agencies, Congress, the President, and the Judicial Conference aimed at improving the efficiency, fairness, and transparency of administrative procedures and regulatory programs. |
-| Federal Administrative Adjudication Database | Joint project with Stanford Law School providing comprehensive data on federal agency adjudication processes, administrative law judges, and hearing statistics across all federal agencies. |
-| Equal Access To Justice Act (EAJA) Reporting | Annual reporting to Congress on awards of attorney's fees and costs against the United States under EAJA, with an online database of all EAJA awards accessible to the public. |
-| Sourcebook Of US Executive Agencies | Comprehensive reference resource documenting the structure, authority, and programs of all U.S. executive agencies, updated periodically to reflect organizational changes. |
-| Administrative Law Research And Publications | ACUS consultants and staff prepare research reports, model rules, and periodic summaries of administrative law reform bills on topics related to administrative procedure and government efficiency. |
-| Open Government Data Initiative | ACUS maintains open data resources and has designated a Chief Data Officer in compliance with the Foundations for Evidence-Based Policymaking Act of 2018. |
+**Kin Score 24.5** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 6.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 45.2 |
+| Access clarity | 10.5 |
 
-| Name | Description |
-|------|-------------|
-| Administrative Law Research | Legal researchers, law schools, and practitioners can access ACUS recommendations, reports, and the adjudication database to study trends in federal administrative law and regulatory practice. |
-| Regulatory Process Benchmarking | Federal agencies can use ACUS recommendations and research to benchmark their regulatory and adjudicative procedures against best practices and ACUS-recommended reforms. |
-| EAJA Litigation Cost Analysis | Researchers and policymakers can use the EAJA database to analyze government litigation costs, identify agencies with high fee award rates, and evaluate the effectiveness of EAJA in providing access to justice. |
-| Rulemaking Process Reform | Congressional staff and agency officials can draw on ACUS reports and model rules for guidance on improving rulemaking procedures, notice-and-comment processes, and public participation. |
-| Government Efficiency Analysis | Public interest organizations and policy researchers can use ACUS data and publications to analyze opportunities for improving government administrative processes and reducing regulatory burdens. |
+**Agent readiness 9.2** — agent-aware
 
-## Maintainers
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-**FN:** Kin Lane
+**Regulatory alignment 26.5** — Government & Public Sector
 
-**Email:** info@apievangelist.com
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/administrative-conference-of-the-united-states/](https://apis.io/providers/administrative-conference-of-the-united-states/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Administrative Conference of the United States: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/administrative-conference-of-the-united-states/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
