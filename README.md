@@ -92,27 +92,27 @@ Model Context Protocol servers that expose the API to agents.
 
 Authentication, trust centre, and vulnerability disclosure.
 
-- [Administrative Conference Of The United States Authentication](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-authentication/)
-- [Administrative Conference Of The United States Domain Security](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-domain-security/)
-- [Administrative Conference Of The United States Vulnerability Disclosure](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-vulnerability-disclosure/)
+- [Administrative Conference of the United States Authentication](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-authentication/)
+- [Administrative Conference of the United States Domain Security](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-domain-security/)
+- [Administrative Conference of the United States Vulnerability Disclosure](https://apis.io/security/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-vulnerability-disclosure/)
 
 #### Plans and pricing (1)
 
 Published plans, tiers and prices.
 
-- [Administrative Conference Of The United States Plans Pricing](https://apis.io/plans/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-plans-pricing/)
+- [Administrative Conference of the United States Plans Pricing](https://apis.io/plans/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-plans-pricing/)
 
 #### Rate limits (1)
 
 Published request limits.
 
-- [Administrative Conference Of The United States Rate Limits](https://apis.io/rate-limits/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-rate-limits/)
+- [Administrative Conference of the United States Rate Limits](https://apis.io/rate-limits/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-rate-limits/)
 
 #### FinOps (1)
 
 What the API costs to run, by operation.
 
-- [Administrative Conference Of The United States Finops](https://apis.io/finops/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-finops/)
+- [Administrative Conference of the United States Finops](https://apis.io/finops/administrative-conference-of-the-united-states/administrative-conference-of-the-united-states-finops/)
 
 ## Where to find this API
 
@@ -128,18 +128,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 24.5** — emerging · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 24.0** — emerging · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 62.5 |
 | Contract quality | 6.5 |
 | Contract governance | 18.2 |
-| Operational transparency | 10.5 |
+| Operational transparency | 9.5 |
 | Developer ergonomics | 45.2 |
-| Access clarity | 10.5 |
+| Access clarity | 8.5 |
 
-**Agent readiness 9.2** — agent-aware
+**Agent readiness 9.0** — agent-aware
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -162,6 +162,12 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | — |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
 **Regulatory alignment 26.5** — Government & Public Sector
 
